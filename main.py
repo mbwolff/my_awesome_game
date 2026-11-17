@@ -14,6 +14,38 @@ class Ship(arcade.Sprite):
     def update(self, delta_time: float = 1 / 60):
         pass # TODO: move, burn fuel
 
+class Asteroid(arcade.Sprite):
+    def __init__(self):
+        super().__init__(":reources:images/space_shooter/playerShip1_orange.png", scale=0.5)
+        self.fuel = 100
+
+    def update(self, delta_time: float = 1 / 60):
+        pass # TODO: move, burn fuel
+
+class Package(arcade.Sprite):
+    def __init__(self):
+        super().__init__(":reources:images/space_shooter/playerShip1_orange.png", scale=0.5)
+        self.fuel = 100
+
+    def update(self, delta_time: float = 1 / 60):
+        pass # TODO: move, burn fuel
+
+class Level(arcade.Sprite):
+    def __init__(self):
+        super().__init__(":reources:images/space_shooter/playerShip1_orange.png", scale=0.5)
+        self.fuel = 100
+
+    def update(self, delta_time: float = 1 / 60):
+        pass # TODO: move, burn fuel
+
+class HUD(arcade.Sprite):
+    def __init__(self):
+        super().__init__(":reources:images/space_shooter/playerShip1_orange.png", scale=0.5)
+        self.fuel = 100
+
+    def update(self, delta_time: float = 1 / 60):
+        pass # TODO: move, burn fuel
+
 class MenuView(arcade.View):
     def __init__(self):
         super().__init__()
