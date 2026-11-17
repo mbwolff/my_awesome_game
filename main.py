@@ -8,11 +8,14 @@ MENU_OPTIONS = ["Play", "How to Play", "Quit"]
 
 class Ship(arcade.Sprite):
     def __init__(self):
-        super().__init__(":reources:images/space_shooter/playerShip1_orange.png", scale=0.5)
+        super().__init__(":resources:images/space_shooter/playerShip1_orange.png", scale=0.5)
         self.fuel = 100
+        self.speed = 300
+        self.change_x = 0
 
     def update(self, delta_time: float = 1 / 60):
-        pass # TODO: move, burn fuel
+        self.center_x += self.change_x * delta_time
+        self.center_x = max(self.width / 2, min(WIDTH - self.width / 2, self.center_x))
 
 class Asteroid(arcade.Sprite):
     def __init__(self):
@@ -104,18 +107,35 @@ class GameView(arcade.View):
         self.score_text = arcade.Text("Score: 0", 20, HEIGHT - 40, arcade.color.WHITE, 20)
         self.hint = arcade.Text("SPACE = +10    X = game over", WIDTH / 2, HEIGHT / 2,
                                 arcade.color.LIGHT_GRAY, 20, anchor_x="center")
+        self.ship = Ship()
+        self.ship.center_x = WIDTH / 2
+        self.ship.center_y = 80
+        self.ships = arcade.SpriteList()
+        self.ships.append(self.ship)
 
     def on_draw(self):
         self.clear()
+        self.ships.draw()
         self.hint.draw()
         self.score_text.draw()
 
+    def on_update(self, delta_time):
+        self.ship.update(delta_time)
+
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.SPACE:
+        if key == arcade.key.LEFT:
+            self.ship.change_x = -self.ship.speed
+        elif key == arcade.key.RIGHT:
+            self.ship.change_x = self.ship.speed
+        elif key == arcade.key.SPACE:
             self.score += 10
             self.score_text.text = f"Score: {self.score}"
         elif key == arcade.key.X:
             self.window.show_view(GameOverView(self.score))
+
+    def on_key_release(self, key, modifiers):
+        if key in (arcade.key.LEFT, arcade.key.RIGHT):
+            self.ship.change_x = 0
 
 class GameOverView(arcade.View):
     def __init__(self, score):
